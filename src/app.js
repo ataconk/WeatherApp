@@ -3,6 +3,7 @@ const express = require('express')
 const hbs = require('hbs')
 const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast')
+const getAdvice = require('./utils/advice')
 
 const app = express()
 
@@ -22,6 +23,13 @@ app.use(express.static(publicDirectoryPath))
 app.get('', (req, res) => {
     res.render('index', {
         title: 'Weather',
+        name: 'Atacan Korkmaz'
+    })
+})
+
+app.get('/advice',(req, res) => {
+    res.render('advice', {
+        title: 'Advice',
         name: 'Atacan Korkmaz'
     })
 })
@@ -65,6 +73,21 @@ app.get('/weather', (req, res) => {
             })
         })
     })
+})
+
+app.get('/getAdvice', (req, res) => {
+    
+    getAdvice((error,advice) => {
+        if(error) {
+            return res.send ({error})
+        }
+
+        res.send({
+             advice: advice
+        })
+        console.log(advice)
+    })
+    
 })
 
 app.get('/products', (req, res) => {
