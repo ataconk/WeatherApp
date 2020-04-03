@@ -1,11 +1,14 @@
 console.log('Client side javascript file is loaded!')
 
 const weatherForm = document.querySelector('form')
+const adviceForm = document.querySelector('#advice-form')
+const adviceButton = document.querySelector('#advice-button')
 const search = document.querySelector('input')
 const messageOne = document.querySelector('#message-1')
 const messageTwo = document.querySelector('#message-2')
+const messageThree = document.querySelector('#message-3')
 
-messageOne.textContent=''
+
 
 weatherForm.addEventListener('submit', (e) =>{
 
@@ -32,4 +35,18 @@ weatherForm.addEventListener('submit', (e) =>{
     }
  })
 })
+})
+
+adviceForm.addEventListener('submit', (e) => {
+    
+    e.preventDefault()
+    fetch('/getAdvice').then((response) =>{
+        response.json().then((data) => {
+            if (data.error){
+                messageThree.textContent = "Error occured. Please try again later"
+            }else {
+                messageThree.textContent = data.advice
+            }
+        })
+    })
 })
